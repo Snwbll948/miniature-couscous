@@ -6,7 +6,11 @@
     window.addEventListener("load", init);
 
     function init() {
-      // Stageオブジェクトを作成します
+      
+      main()
+    }
+    function main(){
+            // Stageオブジェクトを作成します
       var stage = new createjs.Stage("myCanvas");
 
       // 円を作成します
@@ -18,7 +22,7 @@
       stage.addChild(shape); // 表示リストに追加
 
       // Stageの描画を更新します
-      stage.update();
+ 
     }
   </script>
 </head>
