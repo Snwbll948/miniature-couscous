@@ -3,11 +3,11 @@
   <meta charset="utf-8" />
   <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
   <script>
-    window.addEventListener("load", init);
-
+    window.addEventListener("load", init)
+    let stage
     function init() {
-      
-      var stage = new createjs.Stage("myCanvas");
+      stage = new createjs.Stage("myCanvas")      
+      createjs.Ticker.addEventListener("tick", ()=>stage.update())
       main()
     }
     function main(){
