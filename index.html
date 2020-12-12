@@ -3,19 +3,23 @@
   <meta charset="utf-8" />
   <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
   <script>
-    window.addEventListener("load", init)
-    let stage
+    window.addEventListener("load", init);
+	let　stage
     function init() {
-      stage = new createjs.Stage("myCanvas")      
-      createjs.Ticker.addEventListener("tick", ()=>stage.update())
+      // Stageオブジェクトを作成します
+      stage = new createjs.Stage("myCanvas");
+      createjs.Ticker.addEventListener("tick", ()=>stage.update());
+
       main()
     }
-    function main(){
-       console.log(114514)
-      let shape = stage.addChild(new createjs.Shape())
-      shape.graphics.beginFill("green")
-      shape.graphics.drawRect(0,0,100,100)
-    }
+	
+	function main(){
+		let bmp = new createjs.Bitmap("https://img.atwikiimg.com/www27.atwiki.jp/monmusuharlem/attach/1/313/monhare.jpg");
+		stage.addChild(bmp);
+		console.log(bmp)
+	}
+	
+	
   </script>
 </head>
 <body>
