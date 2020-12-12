@@ -1,28 +1,92 @@
 <html>
 <head>
-  <meta charset="utf-8" />
-  <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
-  <script>
-    window.addEventListener("load", init);
-	let　stage
-    function init() {
-      // Stageオブジェクトを作成します
-      stage = new createjs.Stage("myCanvas");
-      createjs.Ticker.addEventListener("tick", ()=>stage.update());
-
-      main()
-    }
-	
-	function main(){
-		let bmp = new createjs.Bitmap("https://img.atwikiimg.com/www27.atwiki.jp/monmusuharlem/attach/1/313/monhare.jpg");
-		stage.addChild(bmp);
-		console.log(bmp)
+<meta charset="utf-8" />
+<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+<script>
+window.addEventListener("load", init);
+let　system ={}
+function init() {
+	let stage = new createjs.Stage("myCanvas");
+	system.stage = stage
+	createjs.Ticker.addEventListener("tick", ()=>stage.update());
+	main()
+}
+class Container extends createjs.Container{
+	constructor(name){
+		super()
+		this.name=name
 	}
-	
-	
-  </script>
+	get namePlate(){
+		return this.constructor.name +" "+this.name
+	}
+	addClicker(){
+		this.on("click",(e)=>{e.stopPropagation();this.handlerClick();})
+	}
+	handlerClick(){
+		//default
+		console.log("Clicked: "+this.namePlate)
+	}
+	addShape(){
+		return this.addChild(new createjs.Shape())
+	}
+	addContainer(name){
+		return this.addCHild(new Container())
+	}
+	addRect(width,height,color="black"){
+		let shape = this.addShape()
+		shape.graphics.beginStroke().beginFill(color)
+		shape.graphics.drawRect(0,0,width,height)
+		return shape
+	}
+	addLabel(str){
+		let label	= this.addChild(new createjs.Text(str))
+		label.scale=3
+		return label
+	}
+}	
+class Layer extends Container{
+	static list =[]
+	constructor (name){
+		super(name)
+		Layer.list.push(this.name)
+		Layer[this.name]=this
+	}
+}
+class Button extends Container{
+	style = {color:"skyblue",width:120,height:50}
+	height = 50
+	color = "skyblue"
+	constructor(name){
+		super(name)
+		this.addFrameRect()
+		this.addNameLabel()
+		this.addClicker()
+	}
+	addNameLabel(){
+		let label = this.addLabel(this.name)
+		return label
+	}
+	addFrameRect(){
+		let width = this.style.width
+		let height = this.style.height
+		let color = this.style.color
+		let shape = this.addRect(width,height,color)
+		return shape
+	}
+}
+function main(){
+	let stage = system.stage
+	let url= "https://img.atwikiimg.com/www27.atwiki.jp/monmusuharlem/attach/1/313/monhare.jpg"
+	let bmp = new createjs.Bitmap(url);
+	let layer1 = stage.addChild(new Layer("layer1"))
+	layer1.addChild(bmp)
+	layer1.addClicker()
+	let b1 = stage.addChild(new Button("b1"))
+}
+
+</script>
 </head>
 <body>
-  <canvas id="myCanvas" width="640" height="320"></canvas>
+<canvas id="myCanvas" width="640" height="320"></canvas>
 </body>
 </html>
